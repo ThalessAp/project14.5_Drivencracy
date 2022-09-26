@@ -1,7 +1,8 @@
+import Day from "dayjs";
 import { Router } from "express";
 import { ObjectId } from "mongodb";
-import db from "../mongo";
-import { voteOpSchema } from "../schema";
+import db from "../mongo.js";
+import { voteOpSchema } from "../schema.js";
 
 const router = Router();
 
@@ -38,7 +39,7 @@ router.post("/choice", async function postNewVoteOption(req, res) {
 			.findOne(ObjectId(newVoteOp.pollId));
 		if (!ValidEnq) {
 			return res.status(404);
-		} else if (ValidEnq.expireAt > Date.now - 30) {
+		} else if (ValidEnq.expireAt > Day(Date.now).format("DD/MM/YYYY") - 30) {
 			return res.status(403);
 		}
 
@@ -167,3 +168,5 @@ router.get("/poll/:id/result", async function getPollResult(req, res) {
 		console.error(error);
 	}
 });
+
+export default router;

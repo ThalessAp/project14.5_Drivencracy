@@ -1,6 +1,7 @@
 import { pollSchema } from "../schema.js";
 import { Router } from "express";
 import db from "../mongo.js";
+import Day from "dayjs";
 
 const router = Router();
 
@@ -17,8 +18,11 @@ Deve receber pelo body da request, um parâmetro title, contendo o nome da enque
 router.post("/poll", async function postNewPoll(req, res) {
 	const newPoll = {
 		title: req.body.title,
-		expireAt: [req.body.expireAt || Date.now() + 30],
+		expireAt: req.body.expireAt
+			? Day(req.body.expireAt).format("DD.MM.YYYY")
+			: Day(Date.now() + 30).format(`DD.MM.YYYY`),
 	};
+	console.log(newPoll);
 	const pollValidation = pollSchema.validate(newPoll, { abortEarly: false });
 
 	try {
@@ -37,7 +41,7 @@ router.post("/poll", async function postNewPoll(req, res) {
 		console.error(error);
 	}
 });
- 
+
 /* GET /poll
 - []  Retorna a lista de todas as enquetes:
 

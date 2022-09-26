@@ -10,7 +10,6 @@ import joi from "joi";
     } */
 const pollSchema = joi.object({
 	title: joi.string().required().trim(),
-	expiraAt: joi.string().trim(),
 });
 
 /*- O formato de uma opção de voto deve ser:
