@@ -10,4 +10,4 @@ client.connect().then(() => {
 	db = client.db(process.env.MONGO_DB_NAME);
 });
 
-export default db;
+export  { db };

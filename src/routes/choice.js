@@ -1,7 +1,7 @@
 import Day from "dayjs";
 import { Router } from "express";
 import { ObjectId } from "mongodb";
-import db from "../mongo.js";
+import {db} from "../mongo.js";
 import { voteOpSchema } from "../schema.js";
 
 const router = Router();

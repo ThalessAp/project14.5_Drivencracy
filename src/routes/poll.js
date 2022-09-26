@@ -1,6 +1,6 @@
 import { pollSchema } from "../schema.js";
 import { Router } from "express";
-import db from "../mongo.js";
+import {db} from "../mongo.js";
 import Day from "dayjs";
 
 const router = Router();
