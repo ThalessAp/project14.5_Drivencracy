@@ -10,7 +10,7 @@ import joi from "joi";
     } */
 const pollSchema = joi.object({
 	title: joi.string().required().trim(),
-	expiraAt: joi.date().required().trim(),
+	expiraAt: joi.string().trim(),
 });
 
 /*- O formato de uma opção de voto deve ser:
@@ -31,7 +31,7 @@ const voteOpSchema = joi.object({
         choiceId: ObjectId("54759eb3c090d83494e2d999"), 
     }*/
 const voteSchema = joi.object({
-	createdAt: joi.date().required().trim(),
+	createdAt: joi.string().required().trim(),
 	choiceId: joi.any(),
 });
 

@@ -1,15 +1,14 @@
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
-dotenv.config();
+
+import PollRouter from "./routes/poll.js";
 
 const server = express();
-server.use(cors());
 server.use(express.json());
+server.use(cors());
 
-//Routes
 
-
+server.use(PollRouter);
 
 const PORT = process.env.PORT;
-server.listen(PORT, ()=> console.log('listening on port '+PORT));
+server.listen(PORT, () => console.log("listening on port " + PORT));

@@ -14,12 +14,12 @@ Deve receber pelo body da request, um parâmetro title, contendo o nome da enque
 - [ ]  Se **expireAt** for vazio deve ser considerado 30 dias de enquete por padrão.
 - [ ]  Deve retornar a enquete criada em caso de sucesso com status 201.*/
 
-router.post("/poll", async function newPoll(req, res) {
-	const nwPoll = {
+router.post("/poll", async function postNewPoll(req, res) {
+	const newPoll = {
 		title: req.body.title,
 		expireAt: [req.body.expireAt || Date.now() + 30],
 	};
-	const pollValidation = pollSchema.validate(nwPoll, { abortEarly: false });
+	const pollValidation = pollSchema.validate(newPoll, { abortEarly: false });
 
 	try {
 		if (pollValidation.error) {
@@ -30,17 +30,18 @@ router.post("/poll", async function newPoll(req, res) {
 			);
 		}
 
-		db.collection('polls').insertOne
+		await db.collection("polls").insertOne(newPoll);
+
+		res.sendStatus(201);
 	} catch (error) {
 		console.error(error);
 	}
 });
+ 
+/* GET /poll
+- []  Retorna a lista de todas as enquetes:
 
-/* 
-GET /poll
-  - []  Retorna a lista de todas as enquetes:
-
-  [
+[
 	{
 		_id: "54759eb3c090d83494e2d222",
     title: "Qual a sua linguagem favorita?",
@@ -48,3 +49,15 @@ GET /poll
 	},
 	...
 ] */
+
+router.get("/poll", async function getPollList(req, res) {
+	try {
+		const pollList = await db.collection("polls").find().toArray();
+
+		res.send(pollList);
+	} catch (error) {
+		console.error(error);
+	}
+});
+
+export default router;
